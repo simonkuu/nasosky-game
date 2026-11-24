@@ -10,7 +10,7 @@ Based on [Cinderwatch](https://github.com/kevintngo/cinderwatch) by Kevin T. Ngo
 | --- | --- | --- | --- |
 | `1` | **Kenny** | A squad of Kennys with wooden sticks block and whack monsters on the road. | Guard post |
 | `2` | **Dzakes** | Throws nuts. Fast, and can hit flyers. | Archer tower |
-| `3` | **Mates** | Plays horrible gamelan music. Everything in range is slowed down. No damage. | Storm spire |
+| `3` | **Mates** | Plays gamelan music. Everything in range is slowed down. No damage. | Storm spire |
 | `4` | **Kouc** | Writes code on his computer. Has no effect on anything. | (new) |
 | `5` | **Vojta** | Lobs sausages that burst on the ground. | Bombard |
 
