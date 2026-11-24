@@ -7,7 +7,7 @@ const TOWER = {
   guard: { name: 'Kenny', short: 'Kenny', face: 'kenny', cost: [80, 90, 150], range: [3.4, 3.7, 4.0], n: [2, 3, 3], hp: [62, 90, 135], dmg: [7, 10, 15], rate: [7, 6, 5], air: false, ground: true, light: [55, 70, 90], desc: ['Kennys with wooden sticks', 'block and whack on the road.'] },
   archer: { name: 'Dzakes', short: 'Dzakes', face: 'dzakes', cost: [70, 90, 140], range: [6.2, 6.8, 7.4], dmg: [9, 11, 14], rate: [.85, .78, .7], n: [1, 2, 3], air: true, ground: true, light: [80, 105, 140], desc: ['Throws nuts. Fast and accurate.', 'Can hit flyers.'] },
   spire: { name: 'Mates', short: 'Mates', face: 'mates', cost: [110, 120, 180], range: [5.0, 5.6, 6.2], rate: [1.1, 1.0, .9], slow: [.4, .48, .56], slowT: [1.5, 1.6, 1.7], air: true, ground: true, light: [45, 60, 80], desc: ['Plays gamelan music.', 'Slows everyone in range.'] },
-  coder: { name: 'Kouc', short: 'Kouc', face: 'kouc', cost: [60, 80, 120], range: [0, 0, 0], air: false, ground: false, light: [30, 40, 50], desc: ['Writes code on his computer.', 'Has no effect on anything.'] },
+  coder: { name: 'Kouc', short: 'Kouc', face: 'kouc', cost: [60, 80, 120], range: [0, 0, 0], income: [0, 10, 30], every: [0, 10, 30], air: false, ground: false, light: [30, 40, 50], desc: ['Writes code. No effect at first.', 'Upgrade him to earn coins.'] },
   bombard: { name: 'Vojta', short: 'Vojta', face: 'vojta', cost: [120, 130, 190], range: [7.4, 8.0, 8.6], minRange: 2.3, dmg: [36, 60, 98], splash: [1.55, 1.8, 2.1], rate: [2.9, 2.7, 2.5], air: false, ground: true, light: [50, 62, 80], desc: ['Lobs sausages that burst.', 'Ground targets only.'] },
 };
 const TOWER_KINDS = ['guard', 'archer', 'spire', 'coder', 'bombard'];
@@ -351,6 +351,10 @@ class Tower {
   }
   updCoder(dt, d, lvl) {
     const e = this.op.e; e.typing = G.t + this.idx;
+    if (d.income[lvl] && G.phase === 'play') {
+      this.payT = (this.payT || 0) + dt;
+      if (this.payT >= d.every[lvl]) { this.payT -= d.every[lvl]; const p = this.w(this.mounts.lightAt, _ap); dropCoins(p.x, p.y + .3, p.z, d.income[lvl], lvl === 2 ? 6 : 3); sfx('coin', this.x, this.z, .8, rnd()); }
+    }
     if (this.cool <= 0) { this.cool = rr(.9, 2.2); this.commits++; const p = this.w(this.mounts.lightAt, _ap); fxPart(p.x, p.y + .2, p.z, rr(-.2, .2), rr(.5, .9), rr(-.2, .2), rr(1.2, 2), .07, .4, 2.6, .9, { drag: .6 }); if (rnd() < .5) sfx('typing', this.x, this.z, .5, rnd()); }
     this.em.I = d.light[lvl] * (.85 + .15 * Math.sin(G.t * 9 + this.idx));
     this.drawOp(this.yaw + PI);

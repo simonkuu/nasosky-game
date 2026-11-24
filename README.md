@@ -11,10 +11,10 @@ Based on [Cinderwatch](https://github.com/kevintngo/cinderwatch) by Kevin T. Ngo
 | `1` | **Kenny** | A squad of Kennys with wooden sticks block and whack monsters on the road. | Guard post |
 | `2` | **Dzakes** | Throws nuts. Fast, and can hit flyers. | Archer tower |
 | `3` | **Mates** | Plays gamelan music. Everything in range is slowed down. No damage. | Storm spire |
-| `4` | **Kouc** | Writes code on his computer. Has no effect on anything. | (new) |
+| `4` | **Kouc** | Writes code on his computer. Level 1 has no effect. Level 2 makes 10 coins every 10 seconds. Level 3 makes 30 coins every 30 seconds. | (new) |
 | `5` | **Vojta** | Lobs sausages that burst on the ground. | Bombard |
 
-The AI commander never builds Kouc. You can, if you want to watch him commit.
+The AI commander never builds Kouc. Build and upgrade him yourself to earn coins.
 
 ## Play
 

@@ -233,7 +233,7 @@ const UI = (() => {
       } else {
         const t = m.tower, d = t.def, maxed = t.lvl >= 2, upc = maxed ? 0 : d.cost[t.lvl + 1], can = !maxed && G.gold >= upc && t.state === 'active', refund = Math.round(t.spent * .6);
         const ul = maxed ? 'Max level' : 'Upgrade ' + upc, sl = 'Sell +' + refund, iw9 = 9 * s, bw3 = Math.max(tw(ul), tw(sl)) + iw9 + 11 * s, bh = 15 * s;
-        const st = t.kind === 'guard' ? d.n[t.lvl] + ' Kennys · ' + d.hp[t.lvl] + ' health' : t.kind === 'spire' ? 'Range ' + d.range[t.lvl].toFixed(1) + ' · Slow ' + Math.round(d.slow[t.lvl] * 100) + '%' : t.kind === 'coder' ? 'Effect 0 · Commits ' + (t.commits || 0) : 'Range ' + d.range[t.lvl].toFixed(1) + ' · Damage ' + d.dmg[t.lvl];
+        const st = t.kind === 'guard' ? d.n[t.lvl] + ' Kennys · ' + d.hp[t.lvl] + ' health' : t.kind === 'spire' ? 'Range ' + d.range[t.lvl].toFixed(1) + ' · Slow ' + Math.round(d.slow[t.lvl] * 100) + '%' : t.kind === 'coder' ? (d.income[t.lvl] ? d.income[t.lvl] + ' coins every ' + d.every[t.lvl] + ' s' : 'Effect 0') + ' · Commits ' + (t.commits || 0) : 'Range ' + d.range[t.lvl].toFixed(1) + ' · Damage ' + d.dmg[t.lvl];
         const wP = Math.max(bw3 * 2 + 3 * s, tw(d.name) + 26 * s, tw(st)) + mp * 2, hP = mp * 2 + LH * 2 + 5 * s + bh, [px, py] = place(wP, hP);
         plate(px, py, wP, hP); text(d.name, px + mp, py + mp - s, COLR.amber);
         for (let i = 0; i < 3; i++) PX.icon(c, i <= t.lvl ? 'star' : 'starEmpty', px + wP - mp - (3 - i) * 6 * s, py + mp, s);
