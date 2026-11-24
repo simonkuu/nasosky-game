@@ -108,7 +108,12 @@ function aiThink(dt) {
   const gatePress = sat(G.leaks / 8);
   const opts = [];
   for (const kind of TOWER_KINDS) {
-    if (kind === 'coder') continue;
+    if (kind === 'coder') {
+      // Kouc only pays off over time: build at most one (two on a big board) when the gate is safe, on a pad far from the road.
+      if (N < 6 || gatePress > .75 || cnt.coder >= (N >= 10 ? 2 : 1)) continue;
+      for (const pad of empty) { const cov = sat(padCoverage(pad, 6) / 12); opts.push({ sc: 2.7 * (1 - cov * .3) * (1 - gatePress * .4), cost: TOWER.coder.cost[0], act: 'build', kind, pad }); }
+      continue;
+    }
     const def = TOWER[kind];
     let need = ideal[kind] * (N + 1.6) - cnt[kind] + .35;
     if (kind === 'archer') need += air * .2 + (N === 0 ? 1 : 0); if (kind === 'spire') need += air * .12 + armor * .1; if (kind === 'bombard') need += armor * .08 + swarm * .06 + (N >= 2 && cnt.bombard === 0 ? .5 : 0); if (kind === 'guard') need += swarm * .04 + (N >= 1 && cnt.guard === 0 ? .9 : 0);
@@ -127,7 +132,8 @@ function aiThink(dt) {
     }
   }
   for (const t of towers) {
-    if (t.state !== 'active' || t.lvl >= 2 || t.kind === 'coder') continue;
+    if (t.state !== 'active' || t.lvl >= 2) continue;
+    if (t.kind === 'coder') { opts.push({ sc: (t.lvl === 0 ? 2.4 : 1.5) * (1 - gatePress * .4) * (110 / t.def.cost[t.lvl + 1]), cost: t.def.cost[t.lvl + 1], act: 'up', t }); continue; }
     const c = t.def.cost[t.lvl + 1], use = sat(t.recent / 60);
     let sc = (.5 + use * .9 + (t.lvl === 0 ? .12 : 0)) * (N >= 4 ? 1.25 : .7) * (empty.length === 0 ? 1.6 : 1) * (110 / c);
     if (t.kind === 'archer') sc *= 1 + air * .06; if (t.kind === 'spire') sc *= 1 + armor * .05;
